@@ -7,3 +7,46 @@
 //
 
 import Foundation
+
+extension ParseClient{
+    func getStudentLocations(_ completionHandlerForGettingPins: @escaping(_ studentLocations: [StudentLocation]?, _ errorString: String?)->Void){
+        let paramters = [
+            ParameterKeys.Limit : ParameterValues.Limit,
+            ParameterKeys.Order:ParameterValues.Order
+        ]
+        let _ = taskForGetMethod(paramters as [String: AnyObject],nil){ (results, error) in
+            if let error = error {
+                completionHandlerForGettingPins(nil, error.localizedDescription)
+            }else{
+                if let resultsArray = results![JSONResponseKeys.Results] as? [[String: AnyObject]]{
+                    let studentLocations = StudentLocation.studentLocationsFromResult(resultsArray)
+                    completionHandlerForGettingPins(studentLocations, nil)
+                }else{
+                   completionHandlerForGettingPins(nil, "No Data. Try again!")
+                }
+            }
+        }
+    }
+    
+    func addNewStudentLocation(_ completionHandlerForNewLocation: @escaping(_ success: Bool, _ errorString : String?) -> Void){
+        let jsonBody : String = "{\"uniqueKey\": \"\(NewStudentLocation.Constants.UserId)\", \"firstName\": \"\(NewStudentLocation.Constants.FirstName)\", \"lastName\": \"\(NewStudentLocation.Constants.LastName)\",\"mapString\": \"\(NewStudentLocation.Constants.Location)\", \"mediaURL\": \"\(NewStudentLocation.Constants.Link)\",\"latitude\": \(NewStudentLocation.Constants.Latitude), \"longitude\": \(NewStudentLocation.Constants.Longitude)}"
+        
+        let _ = taskForPostMethod(nil, nil, jsonBody) { (results, error) in
+            if let error = error {
+                completionHandlerForNewLocation(false, error.localizedDescription)
+            }else {
+                guard let objectId = results?[JSONResponseKeys.objectId] as? String else{
+                    completionHandlerForNewLocation(false, "Error in insertion")
+                    return
+                }
+                //Saving value in Constants
+                NewStudentLocation.Constants.ObjectId = objectId
+                
+                completionHandlerForNewLocation(true,nil )
+                
+            }
+            
+        }
+        
+    }
+}

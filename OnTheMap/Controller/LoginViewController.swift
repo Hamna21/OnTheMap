@@ -14,14 +14,25 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
-    @IBOutlet weak var debugTextLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView!
+    @IBOutlet weak var signUpTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
+        let titleParagraphStyle = NSMutableParagraphStyle()
+        titleParagraphStyle.alignment = .center
+        
+        //Text to be displayed in SignUpView
+        //let signUpText = "Don't have an account? Sign Up"
+        let attributedString = NSMutableAttributedString(string: "Don't have an account? Sign Up")
+        attributedString.addAttribute(.link, value: "https://www.udacity.com", range: NSRange(location: 23, length: 7))
+        attributedString.addAttribute(.paragraphStyle, value: titleParagraphStyle, range: NSRange(location: 0, length: 30))
+        
+        signUpTextView.attributedText = attributedString
+    
         /*subscribeToNotification(.UIKeyboardWillShow, #selector(keyboardWillShow(_:)))
         subscribeToNotification(.UIKeyboardWillHide, #selector(keyboardWillHide(_:)))
         subscribeToNotification(.UIKeyboardDidShow, #selector(keyboardDidShow(_:)))
@@ -33,11 +44,12 @@ class LoginViewController: UIViewController {
         unsubscribeFromAllNotifications()
     }
     
+    //Login Button tapped
     @IBAction func loginBtnPressed(_ sender: Any) {
         userDidTapView(self)
         
         if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-            debugTextLabel.text = "User or Password Empty"
+            presentAlertController("Email or Password empty")
         }else{
             setUIEnabled(false)
             let emailText = emailTextField.text!
@@ -46,7 +58,8 @@ class LoginViewController: UIViewController {
             UdacityClient.sharedInstance().authenticateUser(email: emailText, password: passwordText) { (success, error) in
                 performUIUpdatesOnMain {
                     if let error = error {
-                        self.displayError(error)
+                        self.presentAlertController(error)
+                        self.setUIEnabled(true)
                     }else{
                         self.completeLogin()
                     }
@@ -56,14 +69,10 @@ class LoginViewController: UIViewController {
     }
     
     private func completeLogin(){
-        debugTextLabel.text = ""
-        setUIEnabled(true) //REMOVE LATER
-    }
-    private func displayError(_ error: NSError?){
-        if let error = error {
-            debugTextLabel.text = error.localizedDescription.description
+        let controller = self.storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UINavigationController
+        present(controller,animated: true) {
+            self.setUIEnabled(true)
         }
-        setUIEnabled(true) //REMOVE LATER
     }
 }
 
@@ -75,33 +84,35 @@ extension LoginViewController: UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        debugTextLabel.text = ""
-    }
     @objc func keyboardWillShow(_ notification: Notification){
         if !keyboardOnScreen {
             view.frame.origin.y -= keyboardHeight(notification)
         }
     }
+    
     @objc func keyboardWillHide(_ notification: Notification){
         if keyboardOnScreen{
             view.frame.origin.y += keyboardHeight(notification)
         }
         
     }
+    
     @objc func keyboardDidShow(_ notification: Notification){
         keyboardOnScreen = true
         
     }
+    
     @objc func keyboardDidHide(_ notification: Notification){
         keyboardOnScreen = false
     }
+    
     func keyboardHeight(_ notification: Notification) -> CGFloat {
         let userInfo = (notification as NSNotification).userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
         return keyboardSize.cgRectValue.height
         
     }
+    
     func resignIfFirstResponder(_ textField: UITextField){
         if textField.isFirstResponder{
             textField.resignFirstResponder()
@@ -113,20 +124,35 @@ extension LoginViewController: UITextFieldDelegate {
         resignIfFirstResponder(passwordTextField)
     }
 }
+
+extension LoginViewController : UITextViewDelegate{
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        let app = UIApplication.shared
+        app.open(URL, options: [:])
+        return true
+    }
+}
+
 //Configure UI
 private extension LoginViewController{
     func setUIEnabled(_ enabled: Bool){
         emailTextField.isEnabled = enabled
         passwordTextField.isEnabled = enabled
         loginBtn.isEnabled = enabled
-        debugTextLabel.text = ""
-        debugTextLabel.isEnabled = enabled
-        
+       
         if enabled{
             loginBtn.alpha = 1.0
+            emailTextField.text = ""
+            passwordTextField.text = ""
         }else{
             loginBtn.alpha = 0.5
         }
+    }
+    
+    func presentAlertController(_ message: String? = nil){
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
 }
 //Notifications
