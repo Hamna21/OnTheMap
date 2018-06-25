@@ -69,7 +69,7 @@ class LocationsMapViewController: UIViewController, MKMapViewDelegate {
             
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
-            annotation.title = location.firstName
+            annotation.title = "\(location.firstName!) \(location.lastName!)"
             annotation.subtitle = location.mediaURL
             
             annotations.append(annotation)
