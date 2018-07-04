@@ -12,8 +12,6 @@ import MapKit
 class LocationsMapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var locationsMapView: MKMapView!
-    
-    var locations: [StudentLocation] = [StudentLocation]()
     var annotations = [MKPointAnnotation]()
     
     override func viewDidLoad() {
@@ -30,7 +28,6 @@ class LocationsMapViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         locationsMapView.delegate = self
-        //Getting Location Data from server
         refreshLocations()
     }
     
@@ -53,14 +50,16 @@ class LocationsMapViewController: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView{
             let app = UIApplication.shared
-            if let toOpen = view.annotation?.subtitle! {
-                app.open(URL(string: toOpen)!)
+            if let toOpen = view.annotation?.subtitle!, let url = URL(string: toOpen) {
+                app.open(url)
+            }else{
+                presentAlertController("URL not valid.")
             }
         }
     }
     
     //Populating Annotations Array
-    func locationAnnotations(_ locations:[StudentLocation]){
+    func locationAnnotations(_ locations:[StudentInformation]){
         for location in locations{
             let lat = CLLocationDegrees(location.latitude!)
             let long = CLLocationDegrees(location.longitude!)
@@ -97,16 +96,14 @@ class LocationsMapViewController: UIViewController, MKMapViewDelegate {
     }
     //Refresh Button tapped
     @objc func refreshLocations(){
-        ParseClient.sharedInstance().getStudentLocations { (locations, error) in
-            if let locations = locations {
-                self.locations = locations
-                performUIUpdatesOnMain {
-                    self.locationAnnotations(locations)
+        ParseClient.sharedInstance().getStudentLocations { (success, error) in
+            performUIUpdatesOnMain {
+                if success!{
+                    self.locationAnnotations(StudentLocations.locations)
                     self.locationsMapView.addAnnotations(self.annotations)
+                }else{
+                    self.presentAlertController(error)
                 }
-            }else{
-                self.presentAlertController(error)
-
             }
         }
     }

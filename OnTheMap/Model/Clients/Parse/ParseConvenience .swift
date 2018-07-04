@@ -9,20 +9,22 @@
 import Foundation
 
 extension ParseClient{
-    func getStudentLocations(_ completionHandlerForGettingPins: @escaping(_ studentLocations: [StudentLocation]?, _ errorString: String?)->Void){
+    func getStudentLocations(_ completionHandlerForGettingPins: @escaping(_ success: Bool?, _ errorString: String?)->Void){
         let paramters = [
             ParameterKeys.Limit : ParameterValues.Limit,
             ParameterKeys.Order:ParameterValues.Order
         ]
         let _ = taskForGetMethod(paramters as [String: AnyObject],nil){ (results, error) in
             if let error = error {
-                completionHandlerForGettingPins(nil, error.localizedDescription)
+                completionHandlerForGettingPins(false, error.localizedDescription)
             }else{
                 if let resultsArray = results![JSONResponseKeys.Results] as? [[String: AnyObject]]{
-                    let studentLocations = StudentLocation.studentLocationsFromResult(resultsArray)
-                    completionHandlerForGettingPins(studentLocations, nil)
+                    
+                    //Storing student locations in Array Model
+                    StudentLocations.studentLocationsFromResult(resultsArray)
+                    completionHandlerForGettingPins(true, nil)
                 }else{
-                   completionHandlerForGettingPins(nil, "No Data. Try again!")
+                   completionHandlerForGettingPins(false, "No Data. Try again!")
                 }
             }
         }

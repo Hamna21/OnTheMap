@@ -17,13 +17,14 @@
 		B19940CC20E01FAA00542717 /* LocationAdditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19940CB20E01FAA00542717 /* LocationAdditionViewController.swift */; };
 		B19940CE20E0C72400542717 /* LocationAdditionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19940CD20E0C72400542717 /* LocationAdditionMapViewController.swift */; };
 		B19940D020E0D07400542717 /* NewStudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19940CF20E0D07400542717 /* NewStudentLocation.swift */; };
+		B199412420ED259D00542717 /* StudentLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B199412320ED259D00542717 /* StudentLocations.swift */; };
 		B1EFF17E20DE24FE004055CC /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EFF17D20DE24FE004055CC /* UdacityClient.swift */; };
 		B1EFF18020DE2511004055CC /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EFF17F20DE2511004055CC /* UdacityConvenience.swift */; };
 		B1EFF18220DE2528004055CC /* UdacityConsants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EFF18120DE2528004055CC /* UdacityConsants.swift */; };
 		B1EFF18420DE99B3004055CC /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EFF18320DE99B3004055CC /* ParseClient.swift */; };
 		B1EFF18620DE99EE004055CC /* ParseConvenience .swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EFF18520DE99EE004055CC /* ParseConvenience .swift */; };
 		B1EFF18820DE9A00004055CC /* ParseConstants .swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EFF18720DE9A00004055CC /* ParseConstants .swift */; };
-		B1EFF18A20DE9A25004055CC /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EFF18920DE9A25004055CC /* StudentLocation.swift */; };
+		B1EFF18A20DE9A25004055CC /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EFF18920DE9A25004055CC /* StudentInformation.swift */; };
 		B1EFF18C20DEBF05004055CC /* LocationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EFF18B20DEBF05004055CC /* LocationsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,13 +41,14 @@
 		B19940CB20E01FAA00542717 /* LocationAdditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAdditionViewController.swift; sourceTree = "<group>"; };
 		B19940CD20E0C72400542717 /* LocationAdditionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAdditionMapViewController.swift; sourceTree = "<group>"; };
 		B19940CF20E0D07400542717 /* NewStudentLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStudentLocation.swift; sourceTree = "<group>"; };
+		B199412320ED259D00542717 /* StudentLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocations.swift; sourceTree = "<group>"; };
 		B1EFF17D20DE24FE004055CC /* UdacityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		B1EFF17F20DE2511004055CC /* UdacityConvenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityConvenience.swift; sourceTree = "<group>"; };
 		B1EFF18120DE2528004055CC /* UdacityConsants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityConsants.swift; sourceTree = "<group>"; };
 		B1EFF18320DE99B3004055CC /* ParseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
 		B1EFF18520DE99EE004055CC /* ParseConvenience .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseConvenience .swift"; sourceTree = "<group>"; };
 		B1EFF18720DE9A00004055CC /* ParseConstants .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseConstants .swift"; sourceTree = "<group>"; };
-		B1EFF18920DE9A25004055CC /* StudentLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
+		B1EFF18920DE9A25004055CC /* StudentInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		B1EFF18B20DEBF05004055CC /* LocationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +136,7 @@
 				B1EFF17B20DE24C0004055CC /* Udacity */,
 				B1EFF17C20DE24CB004055CC /* Parse */,
 				B19940CF20E0D07400542717 /* NewStudentLocation.swift */,
+				B199412320ED259D00542717 /* StudentLocations.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -154,7 +157,7 @@
 				B1EFF18320DE99B3004055CC /* ParseClient.swift */,
 				B1EFF18520DE99EE004055CC /* ParseConvenience .swift */,
 				B1EFF18720DE9A00004055CC /* ParseConstants .swift */,
-				B1EFF18920DE9A25004055CC /* StudentLocation.swift */,
+				B1EFF18920DE9A25004055CC /* StudentInformation.swift */,
 			);
 			path = Parse;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 				B1EFF17E20DE24FE004055CC /* UdacityClient.swift in Sources */,
 				B19940CA20DFA62200542717 /* LocationsMapViewController.swift in Sources */,
 				B19940D020E0D07400542717 /* NewStudentLocation.swift in Sources */,
+				B199412420ED259D00542717 /* StudentLocations.swift in Sources */,
 				B1EFF18620DE99EE004055CC /* ParseConvenience .swift in Sources */,
 				B1EFF18420DE99B3004055CC /* ParseClient.swift in Sources */,
 				B122B0C320DD06B200672802 /* LoginViewController.swift in Sources */,
@@ -241,7 +245,7 @@
 				B19940CC20E01FAA00542717 /* LocationAdditionViewController.swift in Sources */,
 				B1EFF18820DE9A00004055CC /* ParseConstants .swift in Sources */,
 				B1EFF18020DE2511004055CC /* UdacityConvenience.swift in Sources */,
-				B1EFF18A20DE9A25004055CC /* StudentLocation.swift in Sources */,
+				B1EFF18A20DE9A25004055CC /* StudentInformation.swift in Sources */,
 				B122B0C120DD06B200672802 /* AppDelegate.swift in Sources */,
 				B19940CE20E0C72400542717 /* LocationAdditionMapViewController.swift in Sources */,
 				B1EFF18C20DEBF05004055CC /* LocationsTableViewController.swift in Sources */,

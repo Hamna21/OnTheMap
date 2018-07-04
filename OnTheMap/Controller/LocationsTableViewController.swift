@@ -12,9 +12,6 @@ import UIKit
 class LocationsTableViewController: UIViewController {
 
     @IBOutlet weak var locationsTableView: UITableView!
-    var locations : [StudentLocation]! = [StudentLocation]()
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,7 +24,6 @@ class LocationsTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refreshLocations()
     }
     
     @objc func addLocation(){
@@ -49,14 +45,14 @@ class LocationsTableViewController: UIViewController {
     }
     
     @objc func refreshLocations(){
-        ParseClient.sharedInstance().getStudentLocations { (locations, error) in
-            if let locations = locations {
-                self.locations = locations
-                performUIUpdatesOnMain {
+        ParseClient.sharedInstance().getStudentLocations { (success, error) in
+            performUIUpdatesOnMain {
+                if success! {
                     self.locationsTableView.reloadData()
+                }else{
+                    self.presentAlertController(error)
+                    
                 }
-            }else{
-                self.presentAlertController(error)
             }
         }
     }
@@ -71,12 +67,12 @@ class LocationsTableViewController: UIViewController {
 
 extension LocationsTableViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locations.count
+        return StudentLocations.locations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StudentLocationCell") as UITableViewCell?
-        let location = locations[indexPath.row]
+        let location = StudentLocations.locations[indexPath.row]
         
         cell?.textLabel?.text = "\(location.firstName ?? "Empty") \(location.lastName ?? "Empty")"
         cell?.detailTextLabel?.text = location.mediaURL
@@ -90,15 +86,19 @@ extension LocationsTableViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let location = locations[indexPath.row]
+        let location = StudentLocations.locations[indexPath.row]
         if let urlString = location.mediaURL {
             let url = URL(string: urlString)
-            //let config = SFSafariViewController.Configuration()
-            //config.entersReaderIfAvailable = true
             
-            let controller = SFSafariViewController(url: url!)
-            present(controller, animated: true, completion: nil)
+            if let url = url {
+                let controller = SFSafariViewController(url: url)
+                present(controller, animated: true, completion: nil)
+            }else{
+                presentAlertController("URL is not correct.")
+            }
             
         }
     }
+    
+    
 }

@@ -48,6 +48,7 @@ class LocationAdditionViewController: UIViewController {
             NewStudentLocation.Constants.Link = linkTextField.text!
             
             geocoder.geocodeAddressString(NewStudentLocation.Constants.Location, completionHandler: {(placemarks, error) -> Void in
+                self.setUIEnabled(true)
                 self.processResponsesPlacemark(withPlacemarks: placemarks, error: error)
             })
             
@@ -55,10 +56,9 @@ class LocationAdditionViewController: UIViewController {
     }
     //Fiding coordinates from response
     func processResponsesPlacemark(withPlacemarks placemarks: [CLPlacemark]?, error: Error?){
-        if let error = error {
-            self.presentAlertController(error.localizedDescription)
+        if error != nil {
+            self.presentAlertController("Location is not valid/searhcable. Try Again.")
         }else{
-            setUIEnabled(true)
             var location : CLLocation!
             if let placemarks = placemarks, placemarks.count > 0 {
                 location = placemarks.first?.location
