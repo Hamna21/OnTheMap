@@ -50,7 +50,7 @@ class LocationsMapViewController: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView{
             let app = UIApplication.shared
-            if let toOpen = view.annotation?.subtitle!, let url = URL(string: toOpen) {
+            if let toOpen = view.annotation?.subtitle!, let url = URL(string: toOpen), app.canOpenURL(url) {
                 app.open(url)
             }else{
                 presentAlertController("URL not valid.")

@@ -87,16 +87,11 @@ extension LocationsTableViewController: UITableViewDataSource, UITableViewDelega
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let location = StudentLocations.locations[indexPath.row]
-        if let urlString = location.mediaURL {
-            let url = URL(string: urlString)
-            
-            if let url = url {
-                let controller = SFSafariViewController(url: url)
-                present(controller, animated: true, completion: nil)
-            }else{
-                presentAlertController("URL is not correct.")
-            }
-            
+        if let urlString = location.mediaURL, let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
+            let controller = SFSafariViewController(url: url)
+            present(controller, animated: true, completion: nil)
+        }else{
+            presentAlertController("URL is not correct.")
         }
     }
     
